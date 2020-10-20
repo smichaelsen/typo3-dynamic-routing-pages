@@ -1,5 +1,5 @@
 {
-  "name": "swisscom/dynamic-routing-pages",
+  "name": "smic/dynamic-routing-pages",
   "type": "typo3-cms-extension",
   "description": "Generates \"limitToPages\" configuration for your enhancers on the fly so you don't need to hardcode it.",
   "license": "GPL-2.0-or-later",
@@ -8,7 +8,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Swisscom\\DynamicRoutingPages\\": "Classes"
+      "Smic\\DynamicRoutingPages\\": "Classes"
     }
   }
 }
