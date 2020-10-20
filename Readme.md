@@ -1,7 +1,7 @@
 # Dynamic Routing Pages
 
-Instead of hardcoding the `limitToPages` configuration for your roue enhancers this package can automatically detect
-the right pages for you and generate the configuration on the fly.
+Instead of hardcoding the `limitToPages` configuration for your route enhancers this package can automatically detect
+the necessary pages for you and generate the configuration on the fly.
 
 ## Problem
 
@@ -49,7 +49,7 @@ routeEnhancers:
     # ...
 ````
 
-Notice the `dynamicPages` configuration. Using a *middleware* this package will use this configuration to populate the `limitToPages` with matching pages.
+Notice the `dynamicPages` configuration. Using a *middleware* this package will populate the `limitToPages` with matching pages.
 
 ## Reference
 
