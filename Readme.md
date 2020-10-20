@@ -11,7 +11,7 @@ Imagine the following typical routing configuration for the news plugin.
 routeEnhancers:
   NewsPages:
     type: Extbase
-    # add every page-ID that contains a News Plugin, but not the News Folder. Important: don't use space between the IDs
+    # add every page-ID that contains a News Plugin
     limitToPages:
       - 23
       - 42
@@ -36,7 +36,6 @@ With the route enhancers configuration not available in the Site module this mea
 routeEnhancers:
   NewsPages:
     type: Extbase
-    # add every page-ID that contains a News Plugin, but not the News Folder. Important: don't use space between the IDs
     dynamicPages:
         withPlugin: news_pi1
     extension: News
