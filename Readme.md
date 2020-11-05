@@ -48,11 +48,11 @@ routeEnhancers:
     # ...
 ````
 
-Notice the `dynamicPages` configuration. Using a *middleware* this package will populate the `limitToPages` with matching pages.
+Notice the `dynamicPages` configuration. This package will populate the `limitToPages` with matching pages.
 
 ## Reference
 
-`dynamicPages` has two possible properties.
+`dynamicPages` has three possible properties.
 
 ### `withPlugin`
 
@@ -62,6 +62,6 @@ Can be a string or an array of `tt_content.list_type` values. Will find all page
 
 Can be a string or an array of `pages.module` values. Will find all pages that have "Contains Plugin" set to one of the given values.
 
-## Caching (missing)
+### `withSwitchableControllerAction`
 
-The dynamic lookup requires database queries that are currently performed on every request. An efficient cache has to be implemented.
+Can be a string or an array of `switchableControllerActions` values. Will find all pages that contain plugins with the given action configured.
