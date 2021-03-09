@@ -10,7 +10,7 @@
     "psr-4": {
       "Smic\\DynamicRoutingPages\\": "Classes"
     }
-  }
+  },
   "extra": {
     "typo3/cms": {
       "extension-key": "dynamic_routing_pages"
