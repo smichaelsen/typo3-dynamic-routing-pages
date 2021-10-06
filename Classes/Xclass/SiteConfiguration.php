@@ -13,13 +13,13 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 {
     protected function getAllSiteConfigurationFromFiles(bool $useCache = true): array
     {
-        $siteConfiguration = $useCache ? $this->getCache()->require($this->cacheIdentifier) : false;
+        $siteConfiguration = $useCache ? $this->cache->require($this->cacheIdentifier) : false;
         if ($siteConfiguration !== false) {
             return $siteConfiguration;
         }
         $siteConfiguration = parent::getAllSiteConfigurationFromFiles($useCache);
         $siteConfiguration = ConfigurationModifier::modifyConfiguration($siteConfiguration);
-        $this->getCache()->set($this->cacheIdentifier, 'return ' . var_export($siteConfiguration, true) . ';');
+        $this->cache->set($this->cacheIdentifier, 'return ' . var_export($siteConfiguration, true) . ';');
 
         return $siteConfiguration;
     }
