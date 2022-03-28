@@ -3,6 +3,8 @@ declare(strict_types=1);
 namespace Smic\DynamicRoutingPages\Xclass;
 
 use Smic\DynamicRoutingPages\ConfigurationModifier;
+use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * @see https://forge.typo3.org/issues/92778
@@ -11,6 +13,16 @@ use Smic\DynamicRoutingPages\ConfigurationModifier;
  */
 class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 {
+    protected PhpFrontend $cache;
+
+    public function __construct(string $configPath)
+    {
+        parent::__construct($configPath);
+        if (!isset($this->cache)) {
+            $this->cache = GeneralUtility::getContainer()->get('cache.core');
+        }
+    }
+
     protected function getAllSiteConfigurationFromFiles(bool $useCache = true): array
     {
         $siteConfiguration = $useCache ? $this->cache->require($this->cacheIdentifier) : false;
