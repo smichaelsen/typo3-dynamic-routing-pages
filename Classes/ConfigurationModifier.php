@@ -69,8 +69,8 @@ class ConfigurationModifier
                 $queryBuilder->expr()->in('list_type', $queryBuilder->createNamedParameter($withPlugins, Connection::PARAM_STR_ARRAY))
             )
             ->execute()
-            ->fetchAll();
-        return array_column($contentElementRecords, 'pid');
+            ->fetchFirstColumn();
+        return $contentElementRecords;
     }
 
     protected static function findPagesWithSwitchableControllerActions(array $withSwitchableControllerActions): array
@@ -85,8 +85,8 @@ class ConfigurationModifier
             ->from('tt_content')
             ->where($queryBuilder->expr()->orX(...$constraints))
             ->execute()
-            ->fetchAll();
-        return array_column($contentElementRecords, 'pid');
+            ->fetchFirstColumn();
+        return $contentElementRecords;
     }
 
     protected static function findPagesContainingModules(array $modules): array
@@ -99,7 +99,7 @@ class ConfigurationModifier
                 $queryBuilder->expr()->in('module', $queryBuilder->createNamedParameter($modules, Connection::PARAM_STR_ARRAY))
             )
             ->execute()
-            ->fetchAll();
-        return array_column($pageRecords, 'uid');
+            ->fetchFirstColumn();
+        return $pageRecords;
     }
 }
