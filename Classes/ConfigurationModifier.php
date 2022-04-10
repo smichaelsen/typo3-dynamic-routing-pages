@@ -8,6 +8,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigurationModifier
 {
+    protected static $cache = [];
+
     public static function modifyConfiguration(array $configuration): array
     {
         foreach ($configuration as $siteKey => $siteConfiguration) {
@@ -38,15 +40,21 @@ class ConfigurationModifier
         $pageUids = [];
         if (isset($dynamicPagesConfiguration['withPlugin'])) {
             $withPlugins = is_array($dynamicPagesConfiguration['withPlugin']) ? $dynamicPagesConfiguration['withPlugin'] : [$dynamicPagesConfiguration['withPlugin']];
-            array_push($pageUids, ...self::findPagesWithPlugins($withPlugins));
+            $withPluginsCacheKey = sha1(json_encode($withPlugins));
+            self::$cache[$withPluginsCacheKey] = self::$cache[$withPluginsCacheKey] ?? self::findPagesWithPlugins($withPlugins);
+            array_push($pageUids, ...self::$cache[$withPluginsCacheKey]);
         }
         if (isset($dynamicPagesConfiguration['containsModule'])) {
             $containsModules = is_array($dynamicPagesConfiguration['containsModule']) ? $dynamicPagesConfiguration['containsModule'] : [$dynamicPagesConfiguration['containsModule']];
-            array_push($pageUids, ...self::findPagesContainingModules($containsModules));
+            $containsModulesCacheKey = sha1(json_encode($containsModules));
+            self::$cache[$containsModulesCacheKey] = self::$cache[$containsModulesCacheKey] ?? self::findPagesContainingModules($containsModules);
+            array_push($pageUids, ...self::$cache[$containsModulesCacheKey]);
         }
         if (isset($dynamicPagesConfiguration['withSwitchableControllerAction'])) {
             $withSwitchableControllerActions = is_array($dynamicPagesConfiguration['withSwitchableControllerAction']) ? $dynamicPagesConfiguration['withSwitchableControllerAction'] : [$dynamicPagesConfiguration['withSwitchableControllerAction']];
-            array_push($pageUids, ...self::findPagesWithSwitchableControllerActions($withSwitchableControllerActions));
+            $withSwitchableControllerActionsCacheKey = sha1(json_encode($withSwitchableControllerActions));
+            self::$cache[$withSwitchableControllerActionsCacheKey] = self::$cache[$withSwitchableControllerActionsCacheKey] ?? self::findPagesWithSwitchableControllerActions($withSwitchableControllerActions);
+            array_push($pageUids, ...self::$cache[$withSwitchableControllerActionsCacheKey]);
         }
         return array_unique($pageUids);
     }
