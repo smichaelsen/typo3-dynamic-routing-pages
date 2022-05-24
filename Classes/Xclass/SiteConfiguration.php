@@ -35,4 +35,20 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 
         return $siteConfiguration;
     }
+
+    public function write(string $siteIdentifier, array $configuration): void
+    {
+        if (!isset($configuration['routeEnhancers'])) {
+            parent::write($siteIdentifier, $configuration);
+        }
+
+        foreach ($configuration['routeEnhancers'] as $key => $enhancerConfiguration) {
+            if (!isset($enhancerConfiguration['dynamicPages'])) {
+                continue;
+            }
+            unset($enhancerConfiguration['limitToPages']);
+            $configuration['routeEnhancers'][$key] = $enhancerConfiguration;
+        }
+        parent::write($siteIdentifier, $configuration);
+    }
 }

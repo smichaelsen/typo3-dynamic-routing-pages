@@ -29,7 +29,6 @@ class ConfigurationModifier
                 continue;
             }
             $enhancerConfiguration['limitToPages'] = self::findDynamicPages($enhancerConfiguration['dynamicPages']);
-            unset($enhancerConfiguration['dynamicPages']);
             $siteConfiguration['routeEnhancers'][$key] = $enhancerConfiguration;
         }
         return $siteConfiguration;
