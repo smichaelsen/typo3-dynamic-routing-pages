@@ -40,6 +40,7 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
     {
         if (!isset($configuration['routeEnhancers'])) {
             parent::write($siteIdentifier, $configuration);
+            return;
         }
 
         foreach ($configuration['routeEnhancers'] as $key => $enhancerConfiguration) {
