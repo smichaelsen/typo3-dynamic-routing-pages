@@ -56,6 +56,12 @@ class ConfigurationModifier
             self::$cache[$withSwitchableControllerActionsCacheKey] = self::$cache[$withSwitchableControllerActionsCacheKey] ?? self::findPagesWithSwitchableControllerActions($withSwitchableControllerActions);
             array_push($pageUids, ...self::$cache[$withSwitchableControllerActionsCacheKey]);
         }
+        if (isset($dynamicPagesConfiguration['withCType'])) {
+            $withCType = is_array($dynamicPagesConfiguration['withCType']) ? $dynamicPagesConfiguration['withCType'] : [$dynamicPagesConfiguration['withCType']];
+            $withCTypeCacheKey = sha1(json_encode($withCType));
+            self::$cache[$withCTypeCacheKey] = self::$cache[$withCTypeCacheKey] ?? self::findPagesWithCType($withCType);
+            array_push($pageUids, ...self::$cache[$withCTypeCacheKey]);
+        }
         return array_unique($pageUids);
     }
 
@@ -101,5 +107,19 @@ class ConfigurationModifier
             ->execute()
             ->fetchFirstColumn();
         return $pageRecords;
+    }
+
+    protected static function findPagesWithCType(array $withCType): array
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $contentElementRecords = $queryBuilder
+            ->select('pid')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->in('CType', $queryBuilder->createNamedParameter($withCType, Connection::PARAM_STR_ARRAY))
+            )
+            ->execute()
+            ->fetchFirstColumn();
+        return $contentElementRecords;
     }
 }

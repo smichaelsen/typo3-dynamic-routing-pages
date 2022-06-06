@@ -65,3 +65,7 @@ Can be a string or an array of `pages.module` values. Will find all pages that h
 ### `withSwitchableControllerAction`
 
 Can be a string or an array of `switchableControllerActions` values. Will find all pages that contain plugins with the given action configured.
+
+### `withCType`
+
+Can be a string or an array of `withCType` values. Will find all pages that contain content element with given CType.
