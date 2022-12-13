@@ -36,10 +36,10 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
         return $siteConfiguration;
     }
 
-    public function write(string $siteIdentifier, array $configuration): void
+    public function write(string $siteIdentifier, array $configuration, bool $protectPlaceholders = false): void
     {
         if (!isset($configuration['routeEnhancers'])) {
-            parent::write($siteIdentifier, $configuration);
+            parent::write($siteIdentifier, $configuration, $protectPlaceholders);
             return;
         }
 
@@ -50,6 +50,6 @@ class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
             unset($enhancerConfiguration['limitToPages']);
             $configuration['routeEnhancers'][$key] = $enhancerConfiguration;
         }
-        parent::write($siteIdentifier, $configuration);
+        parent::write($siteIdentifier, $configuration, $protectPlaceholders);
     }
 }
