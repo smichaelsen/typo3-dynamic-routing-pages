@@ -71,6 +71,7 @@ class ConfigurationModifier
             ->select('pid')
             ->from('tt_content')
             ->where(
+                $queryBuilder->expr()->in('CType', $queryBuilder->createNamedParameter('list', Connection::PARAM_STR)),
                 $queryBuilder->expr()->in('list_type', $queryBuilder->createNamedParameter($withPlugins, Connection::PARAM_STR_ARRAY))
             )
             ->execute()
