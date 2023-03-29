@@ -69,3 +69,7 @@ Can be a string or an array of `switchableControllerActions` values. Will find a
 ### `withCType`
 
 Can be a string or an array of `withCType` values. Will find all pages that contain content element with given CType.
+
+### `withDoktypes`
+
+Can be an integer or an array of `withDoktypes` values. Will find all pages with given doktype.

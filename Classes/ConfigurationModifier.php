@@ -43,6 +43,12 @@ class ConfigurationModifier
             self::$cache[$withPluginsCacheKey] = self::$cache[$withPluginsCacheKey] ?? self::findPagesWithPlugins($withPlugins);
             array_push($pageUids, ...self::$cache[$withPluginsCacheKey]);
         }
+        if (isset($dynamicPagesConfiguration['withDoktypes'])) {
+            $withDoktypes = is_array($dynamicPagesConfiguration['withDoktypes']) ? $dynamicPagesConfiguration['withDoktypes'] : [$dynamicPagesConfiguration['withDoktypes']];
+            $withDoktypesCacheKey = sha1(json_encode($withDoktypes));
+            self::$cache[$withDoktypesCacheKey] = self::$cache[$withDoktypesCacheKey] ?? self::findPagesWithDoktypes($withDoktypes);
+            array_push($pageUids, ...self::$cache[$withDoktypesCacheKey]);
+        }
         if (isset($dynamicPagesConfiguration['containsModule'])) {
             $containsModules = is_array($dynamicPagesConfiguration['containsModule']) ? $dynamicPagesConfiguration['containsModule'] : [$dynamicPagesConfiguration['containsModule']];
             $containsModulesCacheKey = sha1(json_encode($containsModules));
@@ -103,6 +109,24 @@ class ConfigurationModifier
             ->from('pages')
             ->where(
                 $queryBuilder->expr()->in('module', $queryBuilder->createNamedParameter($modules, Connection::PARAM_STR_ARRAY))
+            )
+            ->execute()
+            ->fetchFirstColumn();
+        return $pageRecords;
+    }
+
+    protected static function findPagesWithDoktypes(array $doktypes): array
+    {
+        $doktypes = array_map('intval', $doktypes);
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
+        $pageRecords = $queryBuilder
+            ->select('uid')
+            ->from('pages')
+            ->where(
+                $queryBuilder->expr()->in(
+                  'doktype',
+                  $queryBuilder->createNamedParameter($doktypes, Connection::PARAM_INT_ARRAY)
+                )
             )
             ->execute()
             ->fetchFirstColumn();
