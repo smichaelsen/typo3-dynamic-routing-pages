@@ -13,16 +13,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SiteConfiguration extends \TYPO3\CMS\Core\Configuration\SiteConfiguration
 {
-    protected PhpFrontend $cache;
-
-    public function __construct(string $configPath)
-    {
-        parent::__construct($configPath);
-        if (!isset($this->cache)) {
-            $this->cache = GeneralUtility::getContainer()->get('cache.core');
-        }
-    }
-
     protected function getAllSiteConfigurationFromFiles(bool $useCache = true): array
     {
         $siteConfiguration = $useCache ? $this->cache->require($this->cacheIdentifier) : false;

@@ -18,7 +18,7 @@ class ConfigurationModifier
         return $configuration;
     }
 
-    protected static function modifySiteConfiguration(array $siteConfiguration): array
+    public static function modifySiteConfiguration(array $siteConfiguration): array
     {
         if (!isset($siteConfiguration['routeEnhancers'])) {
             return $siteConfiguration;
