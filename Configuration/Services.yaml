@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Smic\DynamicRoutingPages\:
+    resource: '../Classes/*'
+
+  Smic\DynamicRoutingPages\EventListener\SiteConfigurationLoadedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'dynamic_routing_pages/site_configuration'
+
+  Smic\DynamicRoutingPages\Xclass\SiteConfiguration:
+    autowire: false
+    autoconfigure: false
