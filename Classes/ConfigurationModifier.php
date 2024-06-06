@@ -38,14 +38,6 @@ class ConfigurationModifier
                 $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $uid);
                 return $rootline->get()[0]['uid'] === $rootPageId;
             });
-
-            // If empty
-            if (empty($uids)) {
-                unset($siteConfiguration['routeEnhancers'][$key]);
-            } else {
-                $enhancerConfiguration['limitToPages'] = $uids;
-                $siteConfiguration['routeEnhancers'][$key] = $enhancerConfiguration;
-            }
         }
         return $siteConfiguration;
     }
