@@ -80,7 +80,7 @@ class ConfigurationModifier
                 $queryBuilder->expr()->eq('CType', $queryBuilder->createNamedParameter('list', Connection::PARAM_STR)),
                 $queryBuilder->expr()->in('list_type', $queryBuilder->createNamedParameter($withPlugins, Connection::PARAM_STR_ARRAY))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return $contentElementRecords;
     }
@@ -96,7 +96,7 @@ class ConfigurationModifier
             ->select('pid')
             ->from('tt_content')
             ->where($queryBuilder->expr()->orX(...$constraints))
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return $contentElementRecords;
     }
@@ -110,7 +110,7 @@ class ConfigurationModifier
             ->where(
                 $queryBuilder->expr()->in('module', $queryBuilder->createNamedParameter($modules, Connection::PARAM_STR_ARRAY))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return $pageRecords;
     }
@@ -128,7 +128,7 @@ class ConfigurationModifier
                   $queryBuilder->createNamedParameter($doktypes, Connection::PARAM_INT_ARRAY)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return $pageRecords;
     }
@@ -142,7 +142,7 @@ class ConfigurationModifier
             ->where(
                 $queryBuilder->expr()->in('CType', $queryBuilder->createNamedParameter($withCType, Connection::PARAM_STR_ARRAY))
             )
-            ->execute()
+            ->executeQuery()
             ->fetchFirstColumn();
         return $contentElementRecords;
     }
