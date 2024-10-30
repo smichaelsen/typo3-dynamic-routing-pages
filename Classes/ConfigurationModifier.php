@@ -95,7 +95,7 @@ class ConfigurationModifier
         $contentElementRecords = $queryBuilder
             ->select('pid')
             ->from('tt_content')
-            ->where($queryBuilder->expr()->orX(...$constraints))
+            ->where($queryBuilder->expr()->or(...$constraints))
             ->executeQuery()
             ->fetchFirstColumn();
         return $contentElementRecords;
