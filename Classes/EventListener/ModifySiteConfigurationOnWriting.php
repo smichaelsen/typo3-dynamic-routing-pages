@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Smic\DynamicRoutingPages\EventListener;
 
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Configuration\Event\SiteConfigurationBeforeWriteEvent;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+#[AsEventListener]
 class ModifySiteConfigurationOnWriting
 {
     public function __invoke(SiteConfigurationBeforeWriteEvent $event): SiteConfigurationBeforeWriteEvent

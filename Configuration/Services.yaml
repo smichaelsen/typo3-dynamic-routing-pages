@@ -3,13 +3,3 @@ services:
     autowire: true
     autoconfigure: true
     public: false
-
-  Smic\DynamicRoutingPages\EventListener\ModifySiteConfigurationOnLoading:
-    tags:
-      - name: event.listener
-        identifier: 'dynamic-routing-pages/modifySiteConfigurationOnLoading'
-
-  Smic\DynamicRoutingPages\EventListener\ModifySiteConfigurationOnWriting:
-    tags:
-      - name: event.listener
-        identifier: 'dynamic-routing-pages/modifySiteConfigurationOnWriting'

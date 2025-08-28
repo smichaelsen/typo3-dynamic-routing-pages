@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigurationModifier
 {
-    protected static $cache = [];
+    protected static array $cache = [];
 
     public static function modifyConfiguration(array $configuration): array
     {
