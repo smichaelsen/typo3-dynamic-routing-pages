@@ -3,3 +3,6 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+
+  Smic\DynamicRoutingPages\:
+    resource: '../Classes/*'
