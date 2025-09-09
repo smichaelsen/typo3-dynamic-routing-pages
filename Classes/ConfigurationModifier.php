@@ -4,6 +4,7 @@ namespace Smic\DynamicRoutingPages;
 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigurationModifier
@@ -73,6 +74,7 @@ class ConfigurationModifier
     protected static function findPagesWithPlugins(array $withPlugins): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $contentElementRecords = $queryBuilder
             ->select('pid')
             ->from('tt_content')
@@ -88,6 +90,7 @@ class ConfigurationModifier
     protected static function findPagesWithSwitchableControllerActions(array $withSwitchableControllerActions): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $constraints = [];
         foreach ($withSwitchableControllerActions as $withSwitchableControllerAction) {
             $constraints[] = $queryBuilder->expr()->like('pi_flexform', $queryBuilder->createNamedParameter('%>' . htmlentities($withSwitchableControllerAction) . '<%', \PDO::PARAM_STR));
@@ -104,6 +107,7 @@ class ConfigurationModifier
     protected static function findPagesContainingModules(array $modules): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $pageRecords = $queryBuilder
             ->select('uid')
             ->from('pages')
@@ -119,6 +123,7 @@ class ConfigurationModifier
     {
         $doktypes = array_map('intval', $doktypes);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $pageRecords = $queryBuilder
             ->select('uid')
             ->from('pages')
@@ -136,6 +141,7 @@ class ConfigurationModifier
     protected static function findPagesWithCType(array $withCType): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $contentElementRecords = $queryBuilder
             ->select('pid')
             ->from('tt_content')
