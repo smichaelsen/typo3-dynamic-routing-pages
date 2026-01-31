@@ -17,7 +17,7 @@ class ModifySiteConfigurationOnWriting
     {
         $newConfiguration = $event->getConfiguration();
         $rawConfiguration = $this->loadRawConfiguration($event->getSiteIdentifier());
-        foreach ($rawConfiguration['routeEnhancers'] as $key => $enhancerConfiguration) {
+        foreach ($rawConfiguration['routeEnhancers'] ?? [] as $key => $enhancerConfiguration) {
             if (!isset($enhancerConfiguration['dynamicPages'])) {
                 continue;
             }
