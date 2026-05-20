@@ -17,7 +17,7 @@ class ModifySiteConfigurationOnWriting
     {
         $newConfiguration = $event->getConfiguration();
         $rawConfiguration = $this->loadRawConfiguration($event->getSiteIdentifier());
-        foreach ($rawConfiguration['routeEnhancers'] as $key => $enhancerConfiguration) {
+        foreach ($rawConfiguration['routeEnhancers'] ?? [] as $key => $enhancerConfiguration) {
             if (!isset($enhancerConfiguration['dynamicPages'])) {
                 continue;
             }
@@ -32,7 +32,10 @@ class ModifySiteConfigurationOnWriting
         $sitesDirectory = Environment::getConfigPath() . '/sites';
         $fileName = $sitesDirectory . '/' . $siteIdentifier . '/config.yaml';
         $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
-        $processed = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
+        $processed = $loader->load(
+            fileName: GeneralUtility::fixWindowsFilePath($fileName),
+            flags: YamlFileLoader::PROCESS_PLACEHOLDERS | YamlFileLoader::PROCESS_IMPORTS | YamlFileLoader::ALLOW_EMPTY_FILE
+        );
         return $processed;
     }
 }
