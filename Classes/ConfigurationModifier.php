@@ -6,13 +6,14 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class ConfigurationModifier
 {
     protected static array $cache = [];
 
     public static function modifyConfiguration(array $configuration): array
-    {
+    {   
         foreach ($configuration as $siteKey => $siteConfiguration) {
             $configuration[$siteKey] = self::modifySiteConfiguration($siteConfiguration);
         }
@@ -21,6 +22,8 @@ class ConfigurationModifier
 
     public static function modifySiteConfiguration(array $siteConfiguration): array
     {
+        $rootPageId = $siteConfiguration['rootPageId'];
+
         if (!isset($siteConfiguration['routeEnhancers'])) {
             return $siteConfiguration;
         }
@@ -29,8 +32,21 @@ class ConfigurationModifier
             if (!isset($enhancerConfiguration['dynamicPages'])) {
                 continue;
             }
-            $enhancerConfiguration['limitToPages'] = self::findDynamicPages($enhancerConfiguration['dynamicPages']);
-            $siteConfiguration['routeEnhancers'][$key] = $enhancerConfiguration;
+            
+            $uids = self::findDynamicPages($enhancerConfiguration['dynamicPages']);
+            // Filter if results uids belong to the site
+            $uids = array_filter($uids, function ($uid) use($rootPageId) {
+                $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $uid);
+                return $rootline->get()[0]['uid'] === $rootPageId;
+            });
+
+            // If empty
+            if (empty($uids)) {
+                unset($siteConfiguration['routeEnhancers'][$key]);
+            } else {
+                $enhancerConfiguration['limitToPages'] = $uids;
+                $siteConfiguration['routeEnhancers'][$key] = $enhancerConfiguration;
+            }
         }
         return $siteConfiguration;
     }
